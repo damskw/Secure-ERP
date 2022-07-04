@@ -16,10 +16,12 @@ DATAFILE = "model/sales/sales.csv"
 HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 
-def get_customers():
+def get_customers_id():
     all_data = data_manager.read_table_from_file(DATAFILE, separator=";")
-    customers = []
-    customer_position = 2
+    customers_id = []
+    customer_id_position = 1
     for line in all_data:
-        customers.append(line[customer_position])
-    return customers
+        customers_id.append(line[customer_id_position])
+    return customers_id
+
+print(get_customers_id())
