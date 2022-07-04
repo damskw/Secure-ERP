@@ -1,3 +1,5 @@
+import sys
+sys.path.append('./')
 from view import terminal as view
 from controller import crm_controller, sales_controller, hr_controller
 

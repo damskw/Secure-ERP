@@ -24,4 +24,9 @@ def get_customers_id():
         customers_id.append(line[customer_id_position])
     return customers_id
 
-print(get_customers_id())
+def get_transactions():
+    all_data = data_manager.read_table_from_file(DATAFILE, separator=";")
+    transactions = []
+    for line in all_data:
+        transactions.append(line)
+    return transactions
