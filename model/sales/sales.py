@@ -30,3 +30,6 @@ def get_transactions():
     for line in all_data:
         transactions.append(line)
     return transactions
+
+def update_transactions(new_transactions):
+    data_manager.write_table_to_file(DATAFILE, new_transactions, separator=";")

@@ -1,21 +1,45 @@
+import sys
+sys.path.append('./')
 from model.sales import sales
 from view import terminal as view
 
+TRANSACTION_ID_POSITION = 0
+CUSTOMER_POSITION = 1
+PRODUCT_POSITION = 2
+PRICE_POSITION = 3
+DATE_POSITION = 4
 
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    transactions = sales.get_transactions()
+    view.print_table(transactions)
 
 
-def add_transaction():
-    view.print_error_message("Not implemented yet.")
+def add_transaction(transaction_id, customer, product, price, date):
+    transactions = sales.get_transactions()
+    new_transaction = [transaction_id, customer, product, price, date]
+    transactions.append(new_transaction)
+    sales.update_transactions(transactions)
 
 
-def update_transaction():
-    view.print_error_message("Not implemented yet.")
+def update_transaction(transaction_id, customer, product, price, date):
+    transactions = sales.get_transactions()
+    for line in transactions:
+        if line[TRANSACTION_ID_POSITION] == transaction_id:
+            line[CUSTOMER_POSITION] = customer
+            line[PRODUCT_POSITION] = product
+            line[PRICE_POSITION] = price
+            line[DATE_POSITION] = date
+    sales.update_transactions(transactions)
 
 
-def delete_transaction():
-    view.print_error_message("Not implemented yet.")
+def delete_transaction(transaction_id):
+    transactions = sales.get_transactions()
+    delete_all = 0
+    for line in transactions:
+        if line[TRANSACTION_ID_POSITION] == transaction_id:
+            for length in range(len(line)):
+                del line[delete_all]
+    sales.update_transactions(transactions)
 
 
 def get_biggest_revenue_transaction():
