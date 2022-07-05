@@ -9,6 +9,9 @@ CUSTOMER_POSITION = 1
 PRODUCT_POSITION = 2
 PRICE_POSITION = 3
 DATE_POSITION = 4
+YEAR_POSITION = 0
+MONTH_POSITION = 1
+DAY_POSITION = 2
 
 def list_transactions():
     transactions = sales.get_transactions()
@@ -77,15 +80,12 @@ def count_transactions_between(start_date, end_date):
     transactions = sales.get_transactions()
     start_date = start_date.split("-")
     end_date = end_date.split("-")
-    year_position = 0
-    month_position = 1
-    day_position = 2
     transactions_count = 0
-    start_date = dt.datetime(int(start_date[year_position]), int(start_date[month_position]), int(start_date[day_position]))
-    end_date = dt.datetime(int(end_date[year_position]), int(end_date[month_position]), int(end_date[day_position]))
+    start_date = dt.datetime(int(start_date[YEAR_POSITION]), int(start_date[MONTH_POSITION]), int(start_date[DAY_POSITION]))
+    end_date = dt.datetime(int(end_date[YEAR_POSITION]), int(end_date[MONTH_POSITION]), int(end_date[DAY_POSITION]))
     for line in transactions:
         date_to_compare = line[DATE_POSITION].split("-")
-        date_to_compare = dt.datetime(int(date_to_compare[year_position]), int(date_to_compare[month_position]), int(date_to_compare[day_position]))
+        date_to_compare = dt.datetime(int(date_to_compare[YEAR_POSITION]), int(date_to_compare[MONTH_POSITION]), int(date_to_compare[DAY_POSITION]))
         if date_to_compare >= start_date and date_to_compare <= end_date:
             transactions_count += 1
     return transactions_count
