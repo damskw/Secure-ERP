@@ -92,7 +92,27 @@ def count_transactions_between(start_date, end_date):
 
 
 def sum_transactions_between(start_date, end_date):
-    view.print_error_message("Not implemented yet.")
+    """ Args:
+        Available string input format: YYYY-MM-DD
+        Returns:
+        Sum of transactions in float format
+    """
+    transactions = sales.get_transactions()
+    start_date = start_date.split("-")
+    end_date = end_date.split("-")
+    all_prices = []
+    sum_of_transactions = 0.0
+    start_date = dt.datetime(int(start_date[YEAR_POSITION]), int(start_date[MONTH_POSITION]), int(start_date[DAY_POSITION]))
+    end_date = dt.datetime(int(end_date[YEAR_POSITION]), int(end_date[MONTH_POSITION]), int(end_date[DAY_POSITION]))
+    for line in transactions:
+        date_to_compare = line[DATE_POSITION].split("-")
+        date_to_compare = dt.datetime(int(date_to_compare[YEAR_POSITION]), int(date_to_compare[MONTH_POSITION]), int(date_to_compare[DAY_POSITION]))
+        if date_to_compare >= start_date and date_to_compare <= end_date:
+            price = float(line[PRICE_POSITION])
+            all_prices.append(price)
+    for element in all_prices:
+        sum_of_transactions = sum_of_transactions + element
+    return sum_of_transactions
 
 
 def run_operation(option):
