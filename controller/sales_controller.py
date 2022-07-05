@@ -43,11 +43,28 @@ def delete_transaction(transaction_id):
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
-
+    transactions = sales.get_transactions()
+    revenues = []
+    for line in transactions:
+        revenues.append(line[PRICE_POSITION])
+    revenues.sort(reverse=True)
+    biggest_revenue_value = revenues[0]
+    for line in transactions:
+        if line[PRICE_POSITION] == biggest_revenue_value:
+            biggest_revenue_transaction = line
+    return biggest_revenue_transaction
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    transactions = sales.get_transactions()
+    revenues = []
+    for line in transactions:
+        revenues.append(line[PRICE_POSITION])
+    revenues.sort(reverse=True)
+    biggest_revenue_value = revenues[0]
+    for line in transactions:
+        if line[PRICE_POSITION] == biggest_revenue_value:
+            biggest_revenue_product = line[PRODUCT_POSITION]
+    return biggest_revenue_product
 
 
 def count_transactions_between():
