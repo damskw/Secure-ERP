@@ -1,4 +1,5 @@
 import sys
+import datetime as dt
 sys.path.append('./')
 from model.sales import sales
 from view import terminal as view
@@ -67,11 +68,30 @@ def get_biggest_revenue_product():
     return biggest_revenue_product
 
 
-def count_transactions_between():
-    view.print_error_message("Not implemented yet.")
+def count_transactions_between(start_date, end_date):
+    """ Args:
+        Available string input format: YYYY-MM-DD
+        Returns:
+        Number of transactions between two given dates
+    """
+    transactions = sales.get_transactions()
+    start_date = start_date.split("-")
+    end_date = end_date.split("-")
+    year_position = 0
+    month_position = 1
+    day_position = 2
+    transactions_count = 0
+    start_date = dt.datetime(int(start_date[year_position]), int(start_date[month_position]), int(start_date[day_position]))
+    end_date = dt.datetime(int(end_date[year_position]), int(end_date[month_position]), int(end_date[day_position]))
+    for line in transactions:
+        date_to_compare = line[DATE_POSITION].split("-")
+        date_to_compare = dt.datetime(int(date_to_compare[year_position]), int(date_to_compare[month_position]), int(date_to_compare[day_position]))
+        if date_to_compare >= start_date and date_to_compare <= end_date:
+            transactions_count += 1
+    return transactions_count
 
 
-def sum_transactions_between():
+def sum_transactions_between(start_date, end_date):
     view.print_error_message("Not implemented yet.")
 
 
