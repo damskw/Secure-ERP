@@ -22,7 +22,7 @@ def add_transaction(transaction_id, customer, product, price, date):
     transactions = sales.get_transactions()
     new_transaction = [transaction_id, customer, product, price, date]
     transactions.append(new_transaction)
-    sales.update_transactions(transactions)
+    sales.update_file(transactions)
 
 
 def update_transaction(transaction_id, customer, product, price, date):
@@ -33,7 +33,7 @@ def update_transaction(transaction_id, customer, product, price, date):
             line[PRODUCT_POSITION] = product
             line[PRICE_POSITION] = price
             line[DATE_POSITION] = date
-    sales.update_transactions(transactions)
+    sales.update_file(transactions)
 
 
 def delete_transaction(transaction_id):
@@ -43,7 +43,7 @@ def delete_transaction(transaction_id):
         if line[TRANSACTION_ID_POSITION] == transaction_id:
             for length in range(len(line)):
                 del line[delete_all]
-    sales.update_transactions(transactions)
+    sales.update_file(transactions)
 
 
 def get_biggest_revenue_transaction():

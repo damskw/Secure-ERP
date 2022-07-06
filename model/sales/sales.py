@@ -16,20 +16,9 @@ DATAFILE = "model/sales/sales.csv"
 HEADERS = ["Id", "Customer", "Product", "Price", "Date"]
 
 
-def get_customers_id():
-    all_data = data_manager.read_table_from_file(DATAFILE, separator=";")
-    customers_id = []
-    customer_id_position = 1
-    for line in all_data:
-        customers_id.append(line[customer_id_position])
-    return customers_id
-
 def get_transactions():
-    all_data = data_manager.read_table_from_file(DATAFILE, separator=";")
-    transactions = []
-    for line in all_data:
-        transactions.append(line)
+    transactions = data_manager.read_table_from_file(DATAFILE, separator=";")
     return transactions
 
-def update_transactions(new_transactions):
+def update_file(new_transactions):
     data_manager.write_table_to_file(DATAFILE, new_transactions, separator=";")
