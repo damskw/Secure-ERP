@@ -18,11 +18,10 @@ def list_transactions():
     view.print_table(transactions)
 
 
-def add_transaction(transaction_id, customer, product, price, date):
-    transactions = sales.get_transactions()
-    new_transaction = [transaction_id, customer, product, price, date]
-    transactions.append(new_transaction)
-    sales.update_file(transactions)
+def add_transaction(customer, product, price, date):
+    sales.save_new_transaction(customer, product, price, date)
+
+add_transaction("James Bond", "Rocket Launcher", "999.99", "2022-07-06")
 
 
 def update_transaction(transaction_id, customer, product, price, date):
