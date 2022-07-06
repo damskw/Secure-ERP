@@ -1,5 +1,6 @@
 # Do not modify this file!
-
+import csv
+import pandas as pd
 
 def read_table_from_file(file_name, separator=';'):
     """Read CSV file into a data table.
@@ -30,4 +31,9 @@ def write_table_to_file(file_name, table, separator=';'):
     with open(file_name, "w") as file:
         for record in table:
             row = separator.join(record)
-            file.write(row + "\n")
+            file.write(row + "\r")
+    clear_blank_spaces(file_name)
+
+def clear_blank_spaces(file_name):
+    df = pd.read_csv(file_name)
+    df.to_csv(file_name, index=False)

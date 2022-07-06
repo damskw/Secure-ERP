@@ -20,11 +20,12 @@ def list_transactions():
     headers = ["Transaction ID", "Customer ID", "Product", "Price", "Date"]
     view.print_table(transactions, headers)
 
-list_transactions()
 
+list_transactions()
 
 def add_transaction(customer, product, price, date):
     sales.save_new_transaction(customer, product, price, date)
+
 
 
 def update_transaction(transaction_id, customer, product, price, date):
@@ -40,11 +41,9 @@ def update_transaction(transaction_id, customer, product, price, date):
 
 def delete_transaction(transaction_id):
     transactions = sales.get_transactions()
-    delete_all = 0
     for line in transactions:
         if line[TRANSACTION_ID_POSITION] == transaction_id:
-            for length in range(len(line)):
-                del line[delete_all]
+            line.clear()
     sales.update_file(transactions)
 
 
