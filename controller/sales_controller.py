@@ -21,8 +21,6 @@ def list_transactions():
 def add_transaction(customer, product, price, date):
     sales.save_new_transaction(customer, product, price, date)
 
-add_transaction("James Bond", "Rocket Launcher", "999.99", "2022-07-06")
-
 
 def update_transaction(transaction_id, customer, product, price, date):
     transactions = sales.get_transactions()
