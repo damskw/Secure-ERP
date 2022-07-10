@@ -9,9 +9,6 @@ CUSTOMER_POSITION = 1
 PRODUCT_POSITION = 2
 PRICE_POSITION = 3
 DATE_POSITION = 4
-YEAR_POSITION = 0
-MONTH_POSITION = 1
-DAY_POSITION = 2
 
 
 
@@ -86,18 +83,15 @@ def get_transactions_between(start_date, end_date):
         List of transactions between two dates
     """
     transactions = sales.get_transactions()
-    start_date = start_date.split("-")
-    end_date = end_date.split("-")
     filtered_transactions = []
-    start_date = dt.datetime(int(start_date[YEAR_POSITION]), int(start_date[MONTH_POSITION]), int(start_date[DAY_POSITION]))
-    end_date = dt.datetime(int(end_date[YEAR_POSITION]), int(end_date[MONTH_POSITION]), int(end_date[DAY_POSITION]))
+    start_date = dt.datetime.strptime(start_date, "%Y-%m-%d")
+    end_date = dt.datetime.strptime(end_date, "%Y-%m-%d")
     for line in transactions:
-        date_to_compare = line[DATE_POSITION].split("-")
-        date_to_compare = dt.datetime(int(date_to_compare[YEAR_POSITION]), int(date_to_compare[MONTH_POSITION]), int(date_to_compare[DAY_POSITION]))
+        date_to_compare = dt.datetime.strptime(line[DATE_POSITION], "%Y-%m-%d")
         if date_to_compare >= start_date and date_to_compare <= end_date:
             filtered_transactions.append(line)
     return filtered_transactions
-
+    
 
 def sum_transactions_between(start_date, end_date):
     """ Args:
