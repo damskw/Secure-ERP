@@ -22,7 +22,7 @@ def display_menu():
                "Customer Relationship Management (CRM)",
                "Sales",
                "Human Resources"]
-    view.print_menu("Main menu", options)
+    view.print_menu("Main menu:", options)
 
 
 def menu():
@@ -37,3 +37,5 @@ def menu():
         except ValueError:
             view.print_error_message("Please enter a number!")
     view.print_message("Good-bye!")
+
+menu()

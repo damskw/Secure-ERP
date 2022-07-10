@@ -13,7 +13,11 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    pass
+    option_counter = 0
+    print(title)
+    for option in list_options:
+        print("(" + str(option_counter) + ") " + option)
+        option_counter += 1
 
 
 def print_message(message):
@@ -51,12 +55,8 @@ def print_table(table, headers):
 
 
 def get_input(label):
-    """Gets single string input from the user.
-
-    Args:
-        label: str - the label before the user prompt
-    """
-    pass
+    value = input(label + "\n")
+    return value
 
 
 def get_inputs(labels):
