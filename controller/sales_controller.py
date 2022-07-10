@@ -12,17 +12,13 @@ DATE_POSITION = 4
 YEAR_POSITION = 0
 MONTH_POSITION = 1
 DAY_POSITION = 2
-TEST = 3
 
 
 
 def list_transactions():
     transactions = sales.get_transactions()
-    headers = ["Transaction ID", "Customer ID", "Product", "Price", "Date"]
-    view.print_table(transactions, headers)
+    view.print_table(transactions, sales.HEADERS)
 
-
-list_transactions()
 
 def add_transaction(customer, product, price, date):
     sales.save_new_transaction(customer, product, price, date)
