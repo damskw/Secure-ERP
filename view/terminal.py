@@ -1,4 +1,10 @@
 from tabulate import tabulate
+from os import name, system
+
+def clear():
+  if name == 'nt':
+    _ = system('cls')
+
 
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:

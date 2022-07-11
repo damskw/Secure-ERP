@@ -37,5 +37,3 @@ def menu():
         except ValueError:
             view.print_error_message("Please enter a number!")
     view.print_message("Good-bye!")
-
-menu()

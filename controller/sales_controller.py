@@ -91,7 +91,8 @@ def get_transactions_between(start_date, end_date):
         if date_to_compare >= start_date and date_to_compare <= end_date:
             filtered_transactions.append(line)
     return filtered_transactions
-    
+
+
 
 def sum_transactions_between(start_date, end_date):
     """ Args:

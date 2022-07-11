@@ -41,6 +41,8 @@ def delete_employee(employee_id):
 
 
 def get_oldest_and_youngest():
+    first_value = 0
+    last_value = -1
     employees = hr.get_all_employees()
     all_ages = []
     date_today = dt.datetime.today()
@@ -49,8 +51,8 @@ def get_oldest_and_youngest():
         age = date_today - date_to_compare
         all_ages.append(age)
     all_ages.sort(reverse=True)
-    oldest = all_ages[0]
-    youngest = all_ages[-1]
+    oldest = all_ages[first_value]
+    youngest = all_ages[last_value]
     for line in employees:
         date_to_compare = dt.datetime.strptime(line[EMPLOYEE_DATE_OF_BIRTH_POSITION], "%Y-%m-%d")
         if date_today - date_to_compare == oldest:
