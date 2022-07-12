@@ -1,11 +1,25 @@
 from tabulate import tabulate
 from os import name, system
 from clint.textui import colored
+import os
+
 
 def clear():
   if name == 'nt':
     _ = system('cls')
 
+
+def show_logo():
+    filenames = ["logo.txt"]
+    clear()
+    frames = []
+    for name in filenames:
+        with open(name, "r", encoding = "utf8") as f:
+            frames.append(f.readlines())
+        for frame in frames:
+            print(colored.green("".join(frame))) 
+    print("\n")
+    
 
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
@@ -21,7 +35,7 @@ def print_menu(title, list_options):
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
     option_counter = 0
-    clear()
+    show_logo()
     print("\t" + title + "\n")
     for option in list_options:
         print("(" + str(option_counter) + ") " + option)
@@ -34,7 +48,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    pass
+    print(message)
 
 
 def print_general_results(result, label):

@@ -13,7 +13,7 @@ sys.path.append('./')
 from model import data_manager, util
 
 DATAFILE = "model/sales/sales.csv"
-HEADERS = ["Transaction ID", "Customer ID", "Product", "Price", "Date"]
+HEADERS = ["Transaction ID", "Customer", "Product", "Price", "Date"]
 
 
 def get_transactions():
