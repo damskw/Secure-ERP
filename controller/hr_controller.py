@@ -4,6 +4,7 @@ sys.path.append('./')
 from model.hr import hr
 from view import terminal as view
 from dateutil.relativedelta import relativedelta
+import string
 
 EMPLOYEE_ID_POSITION = 0
 EMPLOYEE_NAME_POSITION = 1
@@ -13,8 +14,11 @@ EMPLOYEE_CLEARANCE_POSITION = 4
 
 
 def list_employees():
+    view.clear()
     employees = hr.get_all_employees()
     view.print_table(employees, hr.HEADERS)
+    view.print_successful_message("Employees have been listed.")
+
 
 def check_date_validation(date):
     date_of_birth_available_chars = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"]
@@ -64,14 +68,40 @@ def check_clearance_level_validation(clearance):
         return True
     return False
 
+
+def check_department_validation(department):
+    available_characters = string.ascii_letters
+    for char in department:
+        if char not in available_characters:
+            view.print_error_message("Department can only be A-Z characters.")
+            return True
+    return False
+
+
+def check_name_validation(name):
+    available_characters = string.ascii_letters + " "
+    for char in name:
+        if char not in available_characters:
+            view.print_error_message("Name can only be A-Z characters.")
+            return True
+    return False
+
+
 def get_add_employee_data():
+    view.clear()
     date_verification = True
     clearance_verification = True
-    employee_name = view.get_input("Please enter employee name:")
+    department_check = True
+    name_check = True
+    while name_check:
+        employee_name = view.get_input("Please enter employee name:")
+        name_check = check_name_validation(employee_name)
     while date_verification:
         employee_date_of_birth = view.get_input("Please enter date of birth: (YYYY-MM-DD)")
         date_verification = check_date_validation(employee_date_of_birth)
-    employee_department = view.get_input("Please enter name of department:")
+    while department_check:
+        employee_department = view.get_input("Please enter name of department:")
+        department_check = check_department_validation(employee_department)
     while clearance_verification:
         employee_clearance = view.get_input("Please enter clearance level:")
         clearance_verification = check_clearance_level_validation(employee_clearance)
@@ -80,6 +110,34 @@ def get_add_employee_data():
 
 def add_employee(employee_name, employee_date_of_birth, employee_department, employee_clearance):
     hr.add_new_employee(employee_name, employee_date_of_birth, employee_department, employee_clearance)
+    view.print_successful_message("Employee has been added.")
+
+
+def get_update_employee_data():
+    view.clear()
+    date_verification = True
+    clearance_verification = True
+    department_check = True
+    name_check = True
+    employee_id = view.get_input("Please enter ID for employee you want to update:")
+    employee_found = check_if_employee_found(employee_id)
+    if employee_found:
+        while name_check:
+            employee_name = view.get_input("Please enter employee name:")
+            name_check = check_name_validation(employee_name)
+        while date_verification:
+            employee_date_of_birth = view.get_input("Please enter date of birth: (YYYY-MM-DD)")
+            date_verification = check_date_validation(employee_date_of_birth)
+        while department_check:
+            employee_department = view.get_input("Please enter name of department:")
+            department_check = check_department_validation(employee_department)
+        while clearance_verification:
+            employee_clearance = view.get_input("Please enter clearance level:")
+            clearance_verification = check_clearance_level_validation(employee_clearance)
+        update_employee(employee_id, employee_name, employee_date_of_birth, employee_department, employee_clearance)
+        view.print_successful_message("Employee has been updated.")
+    else:
+        view.print_error_message("Employee with that ID has not been found.")
 
 
 def update_employee(employee_id, employee_name, employee_date_of_birth, employee_department, employee_clearance):
@@ -93,12 +151,32 @@ def update_employee(employee_id, employee_name, employee_date_of_birth, employee
     hr.update_file(employees)
 
 
+def get_delete_employee_data():
+    view.clear()
+    employee_id = view.get_input("Please enter ID for employee you want to delete:")
+    employee_found = check_if_employee_found(employee_id)
+    if employee_found:
+        delete_employee(employee_id)
+        view.print_successful_message("Employee has been deleted.")
+    else:
+        view.print_error_message("Employee with that ID was not found")
+
+
 def delete_employee(employee_id):
     employees = hr.get_all_employees()
     for line in employees:
         if line[EMPLOYEE_ID_POSITION] == employee_id:
-            line.clear()
+            line.clear() 
     hr.update_file(employees)
+
+
+def check_if_employee_found(employee_id):
+    employees = hr.get_all_employees()
+    employee_found = False
+    for line in employees:
+        if line[EMPLOYEE_ID_POSITION] == employee_id:
+            employee_found = True 
+    return employee_found
 
 
 def get_oldest_and_youngest():
@@ -126,6 +204,14 @@ def get_oldest_and_youngest():
     return oldest, oldest_name, youngest, youngest_name
 
 
+def show_oldest_and_youngest():
+    view.clear()
+    oldest, oldest_name, youngest, youngest_name = get_oldest_and_youngest()
+    oldest_and_youngest = {oldest_name: oldest, youngest_name: youngest}
+    view.print_general_results(oldest_and_youngest, "Oldest (name: age), youngest (name: age)")
+    view.print_successful_message("Oldest and youngest have been viewed.")
+
+
 def count_average(numbers):
     return sum(numbers) // len(numbers)
 
@@ -140,6 +226,13 @@ def get_average_age():
         all_ages.append(age)
     average_age = count_average(all_ages)
     return average_age
+
+
+def show_average_age():
+    view.clear()
+    average_age = get_average_age()
+    view.print_general_results(average_age, "Average age of employees")
+    view.print_successful_message("Average age has been viewed.")
 
 
 def change_birthdate_year_for_current(date, given_date):
@@ -172,7 +265,28 @@ def next_birthdays(given_date):
     if upcoming_birthdays:
         return upcoming_birthdays, upcoming_birthdays_names
     else:
-        return None
+        return None, None
+
+
+def get_next_birthday_data():
+    view.clear()
+    check_date = True
+    while check_date:
+        date = view.get_input("Please enter date to check birthdays for 2 weeks after that. (YYYY-MM-DD)")
+        check_date = check_date_validation(date)
+    return date
+
+
+def show_next_birthdays():
+    view.clear()
+    date = get_next_birthday_data()
+    upcoming_birthdays, upcoming_birthdays_names = next_birthdays(date)
+    following_birthdays = {"Names": upcoming_birthdays_names, "Birthdates": upcoming_birthdays}
+    if upcoming_birthdays != None:
+        view.print_general_results(following_birthdays, "Following birthdays (Name: birthday)")
+        view.print_successful_message("Next birthdays have been viewed.")
+    else:
+        view.print_error_message("No birthdays have been found.")
 
 
 def count_employees_with_clearance(clearance):
@@ -182,6 +296,23 @@ def count_employees_with_clearance(clearance):
         if line[EMPLOYEE_CLEARANCE_POSITION] == clearance:
             employee_counter += 1
     return employee_counter
+
+
+def get_employees_with_clearance_data():
+    view.clear()
+    clearance_check = True
+    while clearance_check:
+        clearance = view.get_input("Please enter clearance level")
+        clearance_check = check_clearance_level_validation(clearance)
+    return clearance
+
+
+def show_employees_with_clearance():
+    view.clear()
+    clearance = get_employees_with_clearance_data()
+    number_of_employees = count_employees_with_clearance(clearance)
+    view.print_general_results(number_of_employees, "Employees with provided clearance level")
+    view.print_successful_message("Number of employees has been viewed.")
 
 
 def count_employees_per_department():
@@ -200,25 +331,32 @@ def count_employees_per_department():
     return employees_per_department
 
 
+def show_employees_per_department():
+    view.clear()
+    employees_per_department = count_employees_per_department()
+    view.print_general_results(employees_per_department, "Employees per department")
+    view.print_successful_message("Employees per department have been listed.")
+
+
 def run_operation(option):
     if option == 1:
         list_employees()
     elif option == 2:
         get_add_employee_data()
     elif option == 3:
-        update_employee()
+        get_update_employee_data()
     elif option == 4:
-        delete_employee()
+        get_delete_employee_data()
     elif option == 5:
-        get_oldest_and_youngest()
+        show_oldest_and_youngest()
     elif option == 6:
-        get_average_age()
+        show_average_age()
     elif option == 7:
-        next_birthdays()
+        show_next_birthdays()
     elif option == 8:
-        count_employees_with_clearance()
+        show_employees_with_clearance()
     elif option == 9:
-        count_employees_per_department()
+        show_employees_per_department()
     elif option == 0:
         return
     else:

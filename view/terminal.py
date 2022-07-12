@@ -21,7 +21,8 @@ def print_menu(title, list_options):
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
     option_counter = 0
-    print(title)
+    clear()
+    print("\t" + title + "\n")
     for option in list_options:
         print("(" + str(option_counter) + ") " + option)
         option_counter += 1
@@ -42,7 +43,8 @@ def print_general_results(result, label):
     lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
     (like "@label \n  @key1: @value1; @key2: @value2")
     """
-    pass
+    print(label + ":" + "\n")
+    print(result)
 
 
 # /--------------------------------\
@@ -81,4 +83,12 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    print(colored.red("Error: " + message))
+    input(colored.red("Error: " + message))
+
+def print_successful_message(message):
+    """Prints a green successful message to the terminal.
+
+    Args:
+        message: str - the successful message
+    """
+    input(colored.green("Success: " + message))
