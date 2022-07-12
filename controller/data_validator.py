@@ -68,3 +68,19 @@ def check_clearance_level_validation(clearance):
         view.print_error_message("Incorrect clearance level.")
         return True
     return False
+
+
+def check_price_validation(price):
+    available_characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
+    available_first_position = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    available_last_position = available_first_position + ["0"]
+    first_position = 0
+    last_position = -1
+    for char in price:
+        if char not in available_characters:
+            view.print_error_message("Price can only be a number.")
+            return True
+    if price[first_position] not in available_first_position or price[last_position] not in available_last_position:
+        view.print_error_message("Invalid price format.")
+        return True
+    return False

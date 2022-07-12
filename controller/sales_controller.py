@@ -2,6 +2,7 @@ import sys
 import datetime as dt
 sys.path.append('./')
 from model.sales import sales
+from controller import data_validator
 from view import terminal as view
 
 TRANSACTION_ID_POSITION = 0
@@ -13,12 +14,30 @@ DATE_POSITION = 4
 
 
 def list_transactions():
+    view.clear()
     transactions = sales.get_transactions()
     view.print_table(transactions, sales.HEADERS)
+    view.print_successful_message("Transactions have been listed.")
 
 
-def add_transaction(customer, product, price, date):
-    sales.save_new_transaction(customer, product, price, date)
+def get_add_transaction_data():
+    view.clear()
+    price_verification = True
+    date_verification = True
+    customer = view.get_input("Please enter customer:")
+    product = view.get_input("Please enter product's name:")
+    while price_verification:
+        price = view.get_input("Please enter price:")
+        price_verification = data_validator.check_price_validation(price)
+    while date_verification:
+        transaction_date = view.get_input("Please enter transaction's date:")
+        date_verification = data_validator.check_date_validation(transaction_date)
+    add_transaction(customer, product, price, transaction_date)
+
+
+def add_transaction(customer, product, price, transaction_date):
+    sales.save_new_transaction(customer, product, price, transaction_date)
+    view.print_successful_message("Transaction has been added.")
 
 
 
@@ -114,7 +133,7 @@ def run_operation(option):
     if option == 1:
         list_transactions()
     elif option == 2:
-        add_transaction()
+        get_add_transaction_data()
     elif option == 3:
         update_transaction()
     elif option == 4:

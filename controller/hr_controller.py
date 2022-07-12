@@ -23,19 +23,19 @@ def list_employees():
 
 def get_add_employee_data():
     view.clear()
-    date_verification = True
-    clearance_verification = True
-    department_check = True
     name_check = True
+    date_verification = True
+    department_verification = True
+    clearance_verification = True
     while name_check:
         employee_name = view.get_input("Please enter employee name:")
         name_check = data_validator.check_name_validation(employee_name)
     while date_verification:
         employee_date_of_birth = view.get_input("Please enter date of birth: (YYYY-MM-DD)")
         date_verification = data_validator.check_date_validation(employee_date_of_birth)
-    while department_check:
+    while department_verification:
         employee_department = view.get_input("Please enter name of department:")
-        department_check = data_validator.check_department_validation(employee_department)
+        department_verification = data_validator.check_department_validation(employee_department)
     while clearance_verification:
         employee_clearance = view.get_input("Please enter clearance level:")
         clearance_verification = data_validator.check_clearance_level_validation(employee_clearance)
