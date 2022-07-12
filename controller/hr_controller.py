@@ -3,6 +3,7 @@ import datetime as dt
 sys.path.append('./')
 from model.hr import hr
 from view import terminal as view
+from controller import data_validator
 from dateutil.relativedelta import relativedelta
 import string
 
@@ -20,73 +21,6 @@ def list_employees():
     view.print_successful_message("Employees have been listed.")
 
 
-def check_date_validation(date):
-    date_of_birth_available_chars = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"]
-    month_first_char_available = ["0", "1"]
-    month_second_char_available = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    day_first_char_available = ["0", "1", "2", "3"]
-    day_second_char_available = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    year_char_available = ["1", "2"]
-    special_date_character = "-"
-    first_special_character_position = 4
-    second_special_character_position = 7
-    first_char_of_year_position = 0
-    first_char_of_month_position = 5
-    second_char_of_month_position = 6
-    first_char_of_day_position = 8
-    second_char_of_day_position = 9
-    date_length = 10
-    check_date = True
-    while check_date:
-        if len(date) == date_length:
-            for char in date:
-                if char not in date_of_birth_available_chars:
-                    view.print_error_message("Incorrect data, not allowed characters used.")
-                    return True
-            if date[first_special_character_position] != special_date_character or date[second_special_character_position] != special_date_character:
-                view.print_error_message("Incorrect special sign.")
-                return True
-            elif date[first_char_of_year_position] not in year_char_available:
-                view.print_error_message("Incorrect year.")
-                return True
-            elif date[first_char_of_month_position] not in month_first_char_available or date[second_char_of_month_position] not in month_second_char_available:
-                view.print_error_message("Incorrect month.")
-                return True
-            elif date[first_char_of_day_position] not in day_first_char_available or date[second_char_of_day_position] not in day_second_char_available:
-                view.print_error_message("Incorrect day.")
-                return True
-            return False
-        else:
-            view.print_error_message("Incorrect data, invalid length of date.")
-            return True
-
-
-def check_clearance_level_validation(clearance):
-    clearance_allowed_characters = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    if clearance not in clearance_allowed_characters:
-        view.print_error_message("Incorrect clearance level.")
-        return True
-    return False
-
-
-def check_department_validation(department):
-    available_characters = string.ascii_letters
-    for char in department:
-        if char not in available_characters:
-            view.print_error_message("Department can only be A-Z characters.")
-            return True
-    return False
-
-
-def check_name_validation(name):
-    available_characters = string.ascii_letters + " "
-    for char in name:
-        if char not in available_characters:
-            view.print_error_message("Name can only be A-Z characters.")
-            return True
-    return False
-
-
 def get_add_employee_data():
     view.clear()
     date_verification = True
@@ -95,16 +29,16 @@ def get_add_employee_data():
     name_check = True
     while name_check:
         employee_name = view.get_input("Please enter employee name:")
-        name_check = check_name_validation(employee_name)
+        name_check = data_validator.check_name_validation(employee_name)
     while date_verification:
         employee_date_of_birth = view.get_input("Please enter date of birth: (YYYY-MM-DD)")
-        date_verification = check_date_validation(employee_date_of_birth)
+        date_verification = data_validator.check_date_validation(employee_date_of_birth)
     while department_check:
         employee_department = view.get_input("Please enter name of department:")
-        department_check = check_department_validation(employee_department)
+        department_check = data_validator.check_department_validation(employee_department)
     while clearance_verification:
         employee_clearance = view.get_input("Please enter clearance level:")
-        clearance_verification = check_clearance_level_validation(employee_clearance)
+        clearance_verification = data_validator.check_clearance_level_validation(employee_clearance)
     add_employee(employee_name, employee_date_of_birth, employee_department, employee_clearance)
 
 
@@ -124,16 +58,16 @@ def get_update_employee_data():
     if employee_found:
         while name_check:
             employee_name = view.get_input("Please enter employee name:")
-            name_check = check_name_validation(employee_name)
+            name_check = data_validator.check_name_validation(employee_name)
         while date_verification:
             employee_date_of_birth = view.get_input("Please enter date of birth: (YYYY-MM-DD)")
-            date_verification = check_date_validation(employee_date_of_birth)
+            date_verification = data_validator.check_date_validation(employee_date_of_birth)
         while department_check:
             employee_department = view.get_input("Please enter name of department:")
-            department_check = check_department_validation(employee_department)
+            department_check = data_validator.check_department_validation(employee_department)
         while clearance_verification:
             employee_clearance = view.get_input("Please enter clearance level:")
-            clearance_verification = check_clearance_level_validation(employee_clearance)
+            clearance_verification = data_validator.check_clearance_level_validation(employee_clearance)
         update_employee(employee_id, employee_name, employee_date_of_birth, employee_department, employee_clearance)
         view.print_successful_message("Employee has been updated.")
     else:
@@ -273,7 +207,7 @@ def get_next_birthday_data():
     check_date = True
     while check_date:
         date = view.get_input("Please enter date to check birthdays for 2 weeks after that. (YYYY-MM-DD)")
-        check_date = check_date_validation(date)
+        check_date = data_validator.check_date_validation(date)
     return date
 
 
@@ -303,7 +237,7 @@ def get_employees_with_clearance_data():
     clearance_check = True
     while clearance_check:
         clearance = view.get_input("Please enter clearance level")
-        clearance_check = check_clearance_level_validation(clearance)
+        clearance_check = data_validator.check_clearance_level_validation(clearance)
     return clearance
 
 
