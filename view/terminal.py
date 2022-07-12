@@ -1,5 +1,6 @@
 from tabulate import tabulate
 from os import name, system
+from clint.textui import colored
 
 def clear():
   if name == 'nt':
@@ -80,4 +81,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    print(colored.red("Error: " + message))
