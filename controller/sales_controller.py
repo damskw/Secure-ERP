@@ -145,17 +145,38 @@ def find_biggest_revenue_product():
     return biggest_revenue_product
 
 
+def get_transactions_between_data():
+    check_date = True
+    while check_date:
+        start_date = view.get_input("Please enter first date")
+        check_date = data_validator.check_date_validation(start_date)
+    check_date = True
+    while check_date:
+        end_date = view.get_input("Please enter second date")
+        check_date = data_validator.check_date_validation(end_date)
+    return start_date, end_date
+
+
+def show_transactions_between():
+    view.show_logo()
+    start_date, end_date = get_transactions_between_data()
+    number_of_transactions = count_transactions_between(start_date, end_date)
+    view.print_general_results(number_of_transactions, "\nNumber of transactions between given dates")
+    filtered_transactions = find_transactions_between(start_date, end_date)
+    view.print_table(filtered_transactions, sales.HEADERS)
+    view.print_successful_message("Transactions between given dates have been viewed.")
+
 def count_transactions_between(start_date, end_date):
     """ Args:
         Available string input format: YYYY-MM-DD
         Returns:
         Number of transactions between two given dates
     """
-    transactions = get_transactions_between(start_date, end_date)
+    transactions = find_transactions_between(start_date, end_date)
     return len(transactions)
 
 
-def get_transactions_between(start_date, end_date):
+def find_transactions_between(start_date, end_date):
     """ Args:
         Available string input format: YYYY-MM-DD
         Returns:
@@ -172,6 +193,12 @@ def get_transactions_between(start_date, end_date):
     return filtered_transactions
 
 
+def show_sum_transactions_between():
+    view.show_logo()
+    start_date, end_date = get_transactions_between_data()
+    sum_of_transactions = sum_transactions_between(start_date, end_date)
+    view.print_general_results(sum_of_transactions, "Sum of transactions between given dates is")
+    view.print_successful_message("Sum of transactions has been viewed.")
 
 def sum_transactions_between(start_date, end_date):
     """ Args:
@@ -179,7 +206,7 @@ def sum_transactions_between(start_date, end_date):
         Returns:
         Sum of transactions in float format
     """
-    filtered_transactions = get_transactions_between(start_date, end_date)
+    filtered_transactions = find_transactions_between(start_date, end_date)
     all_prices = []
     sum_of_transactions = 0.0
     for line in filtered_transactions:
@@ -203,9 +230,9 @@ def run_operation(option):
     elif option == 6:
         show_biggest_revenue_product()
     elif option == 7:
-        count_transactions_between()
+        show_transactions_between()
     elif option == 8:
-        sum_transactions_between()
+        show_sum_transactions_between()
     elif option == 0:
         return
     else:
