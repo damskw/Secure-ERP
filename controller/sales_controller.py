@@ -130,14 +130,18 @@ def show_biggest_revenue_product():
 
 def find_biggest_revenue_product():
     transactions = sales.get_transactions()
-    revenues = []
+    all_products = set()
+    revenue = 0.0
     for line in transactions:
-        revenues.append(line[PRICE_POSITION])
-    revenues.sort(reverse=True)
-    biggest_revenue_value = revenues[0]
-    for line in transactions:
-        if line[PRICE_POSITION] == biggest_revenue_value:
-            biggest_revenue_product = line[PRODUCT_POSITION]
+        all_products.add(line[PRODUCT_POSITION])
+    products_and_incomes = {product: revenue for product in all_products}
+    for product in products_and_incomes:
+        for line in transactions:
+            if line[PRODUCT_POSITION] == product:
+                revenue = revenue + float(line[PRICE_POSITION])
+                products_and_incomes[product] = revenue
+        revenue = 0.0
+    biggest_revenue_product = max(products_and_incomes, key=lambda revenue: products_and_incomes[revenue])
     return biggest_revenue_product
 
 
