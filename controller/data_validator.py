@@ -84,3 +84,30 @@ def check_price_validation(price):
         view.print_error_message("Invalid price format.")
         return True
     return False
+
+
+def check_email_validation(email):
+    must_be_used_characters = ["@", "."]
+    must_be_used_characters_counter = 0
+    must_be_used_characters_maximum_value = 2
+    for char in email:
+        if char in must_be_used_characters:
+            must_be_used_characters_counter += 1
+    if must_be_used_characters_counter != must_be_used_characters_maximum_value:
+        view.print_error_message("Incorrect email.")
+        return True
+    return False
+
+
+def check_customer_subscribed_validation(customer_subscribed):
+    available_length = 1
+    available_characters = ["0", "1"]
+    if len(customer_subscribed) == available_length:
+        if customer_subscribed in available_characters:
+            return False
+        else:
+            view.print_error_message("Incorrect value.")
+            return True
+    else:
+        view.print_error_message("Incorrect length.")
+        return True  

@@ -13,7 +13,7 @@ DATE_POSITION = 4
 
 
 
-def list_transactions():
+def list_all_transactions():
     view.show_logo()
     transactions = sales.get_transactions()
     view.print_table(transactions, sales.HEADERS)
@@ -218,7 +218,7 @@ def sum_transactions_between(start_date, end_date):
 
 def run_operation(option):
     if option == 1:
-        list_transactions()
+        list_all_transactions()
     elif option == 2:
         get_add_transaction_data()
     elif option == 3:

@@ -40,11 +40,11 @@ def get_add_employee_data():
         employee_clearance = view.get_input("Please enter clearance level:")
         clearance_verification = data_validator.check_clearance_level_validation(employee_clearance)
     add_employee(employee_name, employee_date_of_birth, employee_department, employee_clearance)
+    view.print_successful_message("Employee has been added.")
 
 
 def add_employee(employee_name, employee_date_of_birth, employee_department, employee_clearance):
     hr.add_new_employee(employee_name, employee_date_of_birth, employee_department, employee_clearance)
-    view.print_successful_message("Employee has been added.")
 
 
 def get_update_employee_data():

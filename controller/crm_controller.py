@@ -2,6 +2,7 @@ import sys
 sys.path.append('./')
 from model.crm import crm
 from view import terminal as view
+from controller import data_validator
 
 
 CUSTOMER_ID_POSITION = 0
@@ -11,9 +12,28 @@ CUSTOMER_SUBSCRIBED_POSITION = 3
 SUBSCRIBED = "1"
 UNSUBSCRIBED = "0"
 
-def list_customers():
+def list_all_customers():
+    view.show_logo()
     customers = crm.get_all_customers()
     view.print_table(customers, crm.HEADERS)
+    view.print_successful_message("List of customers has been viewed.")
+
+
+def get_add_customer_data():
+    view.show_logo()
+    email_check = True
+    subscribed_check = True
+    customer_name = view.get_input("Please enter customer's name:")
+    while email_check:
+        customer_email = view.get_input("Please enter e-mail:")
+        email_check = data_validator.check_email_validation(customer_email)
+    while subscribed_check:
+        customer_subscribed = view.get_input("Please enter subscribed status: (0 - no subscription, 1 - subscripton)")
+        subscribed_check = data_validator.check_customer_subscribed_validation(customer_subscribed)
+    add_customer(customer_name, customer_email, customer_subscribed)
+    view.print_successful_message("Customer has been added.")
+    
+
 
 def add_customer(customer_name, customer_email, customer_subscribed):
     crm.save_new_customer(customer_name, customer_email, customer_subscribed)
@@ -48,9 +68,9 @@ def get_subscribed_emails():
 
 def run_operation(option):
     if option == 1:
-        list_customers()
+        list_all_customers()
     elif option == 2:
-        add_customer()
+        get_add_customer_data()
     elif option == 3:
         update_customer()
     elif option == 4:
