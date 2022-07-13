@@ -89,11 +89,11 @@ def check_price_validation(price):
 def check_email_validation(email):
     must_be_used_characters = ["@", "."]
     must_be_used_characters_counter = 0
-    must_be_used_characters_maximum_value = 2
+    must_be_used_characters_minimum_value = 2
     for char in email:
         if char in must_be_used_characters:
             must_be_used_characters_counter += 1
-    if must_be_used_characters_counter != must_be_used_characters_maximum_value:
+    if must_be_used_characters_counter < must_be_used_characters_minimum_value:
         view.print_error_message("Incorrect email.")
         return True
     return False

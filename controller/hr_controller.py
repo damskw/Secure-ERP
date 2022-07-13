@@ -226,8 +226,9 @@ def show_next_birthdays():
 def count_employees_with_clearance(clearance):
     employees = hr.get_all_employees()
     employee_counter = 0
+    clearance = int(clearance)
     for line in employees:
-        if line[EMPLOYEE_CLEARANCE_POSITION] == clearance:
+        if int(line[EMPLOYEE_CLEARANCE_POSITION]) >= clearance:
             employee_counter += 1
     return employee_counter
 
@@ -245,7 +246,7 @@ def show_employees_with_clearance():
     view.show_logo()
     clearance = get_employees_with_clearance_data()
     number_of_employees = count_employees_with_clearance(clearance)
-    view.print_general_results(number_of_employees, "Employees with provided clearance level")
+    view.print_general_results(number_of_employees, "Employees with provided clearance level and higher:")
     view.print_successful_message("Number of employees has been viewed.")
 
 

@@ -79,12 +79,30 @@ def update_customer(customer_id, customer_name, customer_email, customer_subscri
     crm.update_file(customers)
 
 
+def get_delete_customer_data():
+    view.show_logo()
+    customer_id = view.get_input("Please enter ID for customer you want to delete:")
+    customer_found = check_if_customer_found(customer_id)
+    if customer_found:
+        delete_customer(customer_id)
+        view.print_successful_message("Customer has been deleted.")
+    else:
+        view.print_error_message("Customer with that ID was not found")
+
+
 def delete_customer(customer_id):
     customers = crm.get_all_customers()
     for line in customers:
         if line[CUSTOMER_ID_POSITION] == customer_id:
             line.clear()
     crm.update_file(customers)
+
+
+def show_subscribed_emails():
+    view.show_logo()
+    subscribed_emails = get_subscribed_emails()
+    view.print_general_results(subscribed_emails, "Subscribed emails are:")
+    view.print_successful_message("Emails have been viewed.")
 
 
 def get_subscribed_emails():
@@ -104,9 +122,9 @@ def run_operation(option):
     elif option == 3:
         get_update_customer_data()
     elif option == 4:
-        delete_customer()
+        get_delete_customer_data()
     elif option == 5:
-        get_subscribed_emails()
+        show_subscribed_emails()
     elif option == 0:
         return
     else:
