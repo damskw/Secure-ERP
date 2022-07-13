@@ -1,3 +1,4 @@
+from distutils.command import check
 import sys
 sys.path.append('./')
 from model.crm import crm
@@ -39,6 +40,35 @@ def add_customer(customer_name, customer_email, customer_subscribed):
     crm.save_new_customer(customer_name, customer_email, customer_subscribed)
 
 
+def check_if_customer_found(customer_id):
+    customers = crm.get_all_customers()
+    customer_found = False
+    for line in customers:
+        if line[CUSTOMER_ID_POSITION] == customer_id:
+            customer_found = True 
+    return customer_found
+
+
+def get_update_customer_data():
+    view.show_logo()
+    email_check = True
+    subscribed_check = True
+    customer_id = view.get_input("Please enter ID for a customer you want to update:")
+    customer_found = check_if_customer_found(customer_id)
+    if customer_found:
+        customer_name = view.get_input("Please enter customer's name:")
+        while email_check:
+            customer_email = view.get_input("Please enter e-mail:")
+            email_check = data_validator.check_email_validation(customer_email)
+        while subscribed_check:
+            customer_subscribed = view.get_input("Please enter subscribed status: (0 - no subscription, 1 - subscripton)")
+            subscribed_check = data_validator.check_customer_subscribed_validation(customer_subscribed)
+        update_customer(customer_id, customer_name, customer_email, customer_subscribed)
+        view.print_successful_message("Customer has been updated.")
+    else:
+        view.print_error_message("Customer with that ID has not been found.")
+
+
 def update_customer(customer_id, customer_name, customer_email, customer_subscribed):
     customers = crm.get_all_customers()
     for line in customers:
@@ -72,7 +102,7 @@ def run_operation(option):
     elif option == 2:
         get_add_customer_data()
     elif option == 3:
-        update_customer()
+        get_update_customer_data()
     elif option == 4:
         delete_customer()
     elif option == 5:
